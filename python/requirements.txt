@@ -1,0 +1,6 @@
+anthropic>=0.69.0
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+python-dotenv>=1.0
+joblib>=1.3

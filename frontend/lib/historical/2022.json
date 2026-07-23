@@ -1,0 +1,94 @@
+{
+  "year": 2022,
+  "roundLabels": [
+    "Round of 16",
+    "Quarterfinals",
+    "Semifinals",
+    "Final"
+  ],
+  "rounds": [
+    [
+      {
+        "home": "Netherlands",
+        "away": "United States",
+        "winner": "Netherlands"
+      },
+      {
+        "home": "Argentina",
+        "away": "Australia",
+        "winner": "Argentina"
+      },
+      {
+        "home": "Japan",
+        "away": "Croatia",
+        "winner": "Croatia"
+      },
+      {
+        "home": "Brazil",
+        "away": "Korea Republic",
+        "winner": "Brazil"
+      },
+      {
+        "home": "England",
+        "away": "Senegal",
+        "winner": "England"
+      },
+      {
+        "home": "France",
+        "away": "Poland",
+        "winner": "France"
+      },
+      {
+        "home": "Morocco",
+        "away": "Spain",
+        "winner": "Morocco"
+      },
+      {
+        "home": "Portugal",
+        "away": "Switzerland",
+        "winner": "Portugal"
+      }
+    ],
+    [
+      {
+        "home": "Netherlands",
+        "away": "Argentina",
+        "winner": "Argentina"
+      },
+      {
+        "home": "Croatia",
+        "away": "Brazil",
+        "winner": "Croatia"
+      },
+      {
+        "home": "England",
+        "away": "France",
+        "winner": "France"
+      },
+      {
+        "home": "Morocco",
+        "away": "Portugal",
+        "winner": "Morocco"
+      }
+    ],
+    [
+      {
+        "home": "Argentina",
+        "away": "Croatia",
+        "winner": "Argentina"
+      },
+      {
+        "home": "France",
+        "away": "Morocco",
+        "winner": "France"
+      }
+    ],
+    [
+      {
+        "home": "Argentina",
+        "away": "France",
+        "winner": "Argentina"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "year": 2026,
+  "roundLabels": ["Round of 32", "Round of 16", "Quarterfinals", "Semifinals", "Final"],
+  "rounds": [
+    [
+      { "home": "Germany", "away": "Paraguay", "winner": "Paraguay" },
+      { "home": "France", "away": "Sweden", "winner": "France" },
+      { "home": "South Africa", "away": "Canada", "winner": "Canada" },
+      { "home": "Netherlands", "away": "Morocco", "winner": "Morocco" },
+      { "home": "Portugal", "away": "Croatia", "winner": "Portugal" },
+      { "home": "Spain", "away": "Austria", "winner": "Spain" },
+      { "home": "United States", "away": "Bosnia-Herzegovina", "winner": "United States" },
+      { "home": "Belgium", "away": "Senegal", "winner": "Belgium" },
+      { "home": "Brazil", "away": "Japan", "winner": "Brazil" },
+      { "home": "Côte d'Ivoire", "away": "Norway", "winner": "Norway" },
+      { "home": "Mexico", "away": "Ecuador", "winner": "Mexico" },
+      { "home": "England", "away": "Congo DR", "winner": "England" },
+      { "home": "Argentina", "away": "Cape Verde", "winner": "Argentina" },
+      { "home": "Australia", "away": "Egypt", "winner": "Egypt" },
+      { "home": "Switzerland", "away": "Algeria", "winner": "Switzerland" },
+      { "home": "Colombia", "away": "Ghana", "winner": "Colombia" }
+    ],
+    [
+      { "home": "Paraguay", "away": "France", "winner": "France" },
+      { "home": "Canada", "away": "Morocco", "winner": "Morocco" },
+      { "home": "Portugal", "away": "Spain", "winner": "Spain" },
+      { "home": "United States", "away": "Belgium", "winner": "Belgium" },
+      { "home": "Brazil", "away": "Norway", "winner": "Norway" },
+      { "home": "Mexico", "away": "England", "winner": "England" },
+      { "home": "Argentina", "away": "Egypt", "winner": "Argentina" },
+      { "home": "Switzerland", "away": "Colombia", "winner": "Switzerland" }
+    ],
+    [
+      { "home": "France", "away": "Morocco", "winner": "France" },
+      { "home": "Spain", "away": "Belgium", "winner": "Spain" },
+      { "home": "Norway", "away": "England", "winner": "England" },
+      { "home": "Argentina", "away": "Switzerland", "winner": "Argentina" }
+    ],
+    [
+      { "home": "France", "away": "Spain", "winner": "Spain" },
+      { "home": "England", "away": "Argentina", "winner": "Argentina" }
+    ],
+    [
+      { "home": "Spain", "away": "Argentina", "winner": "Spain" }
+    ]
+  ]
+}

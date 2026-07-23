@@ -1,0 +1,94 @@
+{
+  "year": 2014,
+  "roundLabels": [
+    "Round of 16",
+    "Quarterfinals",
+    "Semifinals",
+    "Final"
+  ],
+  "rounds": [
+    [
+      {
+        "home": "Brazil",
+        "away": "Chile",
+        "winner": "Brazil"
+      },
+      {
+        "home": "Colombia",
+        "away": "Uruguay",
+        "winner": "Colombia"
+      },
+      {
+        "home": "France",
+        "away": "Nigeria",
+        "winner": "France"
+      },
+      {
+        "home": "Germany",
+        "away": "Algeria",
+        "winner": "Germany"
+      },
+      {
+        "home": "Netherlands",
+        "away": "Mexico",
+        "winner": "Netherlands"
+      },
+      {
+        "home": "Costa Rica",
+        "away": "Greece",
+        "winner": "Costa Rica"
+      },
+      {
+        "home": "Argentina",
+        "away": "Switzerland",
+        "winner": "Argentina"
+      },
+      {
+        "home": "Belgium",
+        "away": "United States",
+        "winner": "Belgium"
+      }
+    ],
+    [
+      {
+        "home": "Brazil",
+        "away": "Colombia",
+        "winner": "Brazil"
+      },
+      {
+        "home": "France",
+        "away": "Germany",
+        "winner": "Germany"
+      },
+      {
+        "home": "Netherlands",
+        "away": "Costa Rica",
+        "winner": "Netherlands"
+      },
+      {
+        "home": "Argentina",
+        "away": "Belgium",
+        "winner": "Argentina"
+      }
+    ],
+    [
+      {
+        "home": "Brazil",
+        "away": "Germany",
+        "winner": "Germany"
+      },
+      {
+        "home": "Netherlands",
+        "away": "Argentina",
+        "winner": "Argentina"
+      }
+    ],
+    [
+      {
+        "home": "Germany",
+        "away": "Argentina",
+        "winner": "Germany"
+      }
+    ]
+  ]
+}

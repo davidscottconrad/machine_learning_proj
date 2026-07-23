@@ -1,0 +1,94 @@
+{
+  "year": 2018,
+  "roundLabels": [
+    "Round of 16",
+    "Quarterfinals",
+    "Semifinals",
+    "Final"
+  ],
+  "rounds": [
+    [
+      {
+        "home": "Uruguay",
+        "away": "Portugal",
+        "winner": "Uruguay"
+      },
+      {
+        "home": "France",
+        "away": "Argentina",
+        "winner": "France"
+      },
+      {
+        "home": "Brazil",
+        "away": "Mexico",
+        "winner": "Brazil"
+      },
+      {
+        "home": "Belgium",
+        "away": "Japan",
+        "winner": "Belgium"
+      },
+      {
+        "home": "Spain",
+        "away": "Russia",
+        "winner": "Russia"
+      },
+      {
+        "home": "Croatia",
+        "away": "Denmark",
+        "winner": "Croatia"
+      },
+      {
+        "home": "Sweden",
+        "away": "Switzerland",
+        "winner": "Sweden"
+      },
+      {
+        "home": "Colombia",
+        "away": "England",
+        "winner": "England"
+      }
+    ],
+    [
+      {
+        "home": "Uruguay",
+        "away": "France",
+        "winner": "France"
+      },
+      {
+        "home": "Brazil",
+        "away": "Belgium",
+        "winner": "Belgium"
+      },
+      {
+        "home": "Russia",
+        "away": "Croatia",
+        "winner": "Croatia"
+      },
+      {
+        "home": "Sweden",
+        "away": "England",
+        "winner": "England"
+      }
+    ],
+    [
+      {
+        "home": "France",
+        "away": "Belgium",
+        "winner": "France"
+      },
+      {
+        "home": "Croatia",
+        "away": "England",
+        "winner": "Croatia"
+      }
+    ],
+    [
+      {
+        "home": "France",
+        "away": "Croatia",
+        "winner": "France"
+      }
+    ]
+  ]
+}
