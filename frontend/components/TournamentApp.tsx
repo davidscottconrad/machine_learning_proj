@@ -12,6 +12,10 @@ function cloneRounds(rounds: Match[][]): Match[][] {
 
 type Tab = TournamentId | "results";
 
+const API_KEY_STORAGE_KEY = "wc-predictor-anthropic-api-key";
+// Same for every card, so it only needs to show once, in the top banner — not repeated per card.
+const MISSING_KEY_MESSAGE = "Enter your Anthropic API key above to run predictions.";
+
 export function TournamentApp() {
   const [statesByTournament, setStatesByTournament] = useState<Record<TournamentId, Match[][]>>(() => {
     const init = {} as Record<TournamentId, Match[][]>;
@@ -25,13 +29,27 @@ export function TournamentApp() {
   });
   const [activeTab, setActiveTab] = useState<Tab>("2026");
   const [banner, setBanner] = useState<string | null>(null);
+  const [apiKey, setApiKey] = useState("");
   const headerRef = useRef<HTMLDivElement>(null);
   const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
+    setApiKey(localStorage.getItem(API_KEY_STORAGE_KEY) ?? "");
+  }, []);
+
+  function updateApiKey(value: string) {
+    setApiKey(value);
+    if (value) localStorage.setItem(API_KEY_STORAGE_KEY, value);
+    else localStorage.removeItem(API_KEY_STORAGE_KEY);
+  }
+
+  useEffect(() => {
     const el = headerRef.current;
     if (!el) return;
-    const observer = new ResizeObserver((entries) => setHeaderHeight(entries[0].contentRect.height));
+    // getBoundingClientRect() (not entries[0].contentRect, which excludes border/padding) so this
+    // matches the header's actual on-screen footprint -- otherwise the 1px border was left out,
+    // making `calc(100vh - headerHeight)` 1px too tall and creating a spurious document scrollbar.
+    const observer = new ResizeObserver(() => setHeaderHeight(el.getBoundingClientRect().height));
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -74,7 +92,12 @@ export function TournamentApp() {
             const res = await fetch("/api/predict", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ home_team: match.home, away_team: match.away, target_year: tDef.year }),
+              body: JSON.stringify({
+                home_team: match.home,
+                away_team: match.away,
+                target_year: tDef.year,
+                api_key: apiKey || undefined,
+              }),
             });
             if (!res.ok) {
               const errBody = await res.json().catch(() => ({}));
@@ -97,9 +120,10 @@ export function TournamentApp() {
             }
           } catch (err) {
             const message = err instanceof Error ? err.message : "Prediction failed";
-            working[r][i] = { ...working[r][i], loading: false, error: message };
-            applyPatch(id, r, i, { loading: false, error: message });
-            setBanner(`${match.home} vs ${match.away}: ${message}`);
+            const cardError = message === MISSING_KEY_MESSAGE ? null : message;
+            working[r][i] = { ...working[r][i], loading: false, error: cardError };
+            applyPatch(id, r, i, { loading: false, error: cardError });
+            setBanner(cardError ? `${match.home} vs ${match.away}: ${message}` : message);
           }
         }),
       );
@@ -120,7 +144,12 @@ export function TournamentApp() {
       const res = await fetch("/api/predict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ home_team: match.home, away_team: match.away, target_year: tDef.year }),
+        body: JSON.stringify({
+          home_team: match.home,
+          away_team: match.away,
+          target_year: tDef.year,
+          api_key: apiKey || undefined,
+        }),
       });
       if (!res.ok) {
         const errBody = await res.json().catch(() => ({}));
@@ -136,8 +165,9 @@ export function TournamentApp() {
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Prediction failed";
-      applyPatch(id, roundIdx, matchIdx, { loading: false, error: message });
-      setBanner(`${match.home} vs ${match.away}: ${message}`);
+      const cardError = message === MISSING_KEY_MESSAGE ? null : message;
+      applyPatch(id, roundIdx, matchIdx, { loading: false, error: cardError });
+      setBanner(cardError ? `${match.home} vs ${match.away}: ${message}` : message);
     }
   }
 
@@ -155,6 +185,14 @@ export function TournamentApp() {
   const anySimulating = Object.values(simulating).some(Boolean);
   const activeTournament = activeTab !== "results" ? TOURNAMENTS.find((t) => t.id === activeTab)! : null;
 
+  // ~$0.01-0.04 per match (see README "Cost") -- shown so a "Run All" click isn't a surprise.
+  const totalMatches = Object.values(statesByTournament).reduce(
+    (sum, rounds) => sum + rounds.flat().length,
+    0,
+  );
+  const estLow = (totalMatches * 0.01).toFixed(2);
+  const estHigh = (totalMatches * 0.04).toFixed(2);
+
   return (
     <div>
       <div ref={headerRef} className="sticky top-0 z-20 border-b border-slate-800 bg-slate-950">
@@ -164,6 +202,25 @@ export function TournamentApp() {
             2026/2022/2018/2014 knockout brackets, backtested against real results — each matchup
             predicted by a Claude agent backed by the project&apos;s Elo / Random Forest model.
           </p>
+          <div className="mt-3 flex items-center gap-2">
+            <label htmlFor="api-key" className="text-xs font-medium text-slate-400">
+              Anthropic API key
+            </label>
+            <input
+              id="api-key"
+              type="password"
+              autoComplete="off"
+              spellCheck={false}
+              placeholder="sk-ant-..."
+              value={apiKey}
+              onChange={(e) => updateApiKey(e.target.value)}
+              className="w-64 rounded border border-slate-700 bg-slate-900 px-2 py-1 text-xs text-slate-200 placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none"
+            />
+            <span className="text-xs text-slate-500">
+              Stored only in your browser, used only for your own predictions. Get one at
+              console.anthropic.com.
+            </span>
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-3 px-6 pb-4">
           <button
@@ -173,6 +230,9 @@ export function TournamentApp() {
           >
             {anySimulating ? "Simulating…" : "Run All Tournaments"}
           </button>
+          <span className="text-xs text-slate-500">
+            {totalMatches} matches · est. ${estLow}-${estHigh} in Anthropic API usage
+          </span>
           <div className="ml-2 flex gap-1">
             {TOURNAMENTS.map((t) => (
               <button

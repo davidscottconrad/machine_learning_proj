@@ -28,6 +28,7 @@ export async function POST(request: Request) {
   const homeTeam = body?.home_team;
   const awayTeam = body?.away_team;
   const targetYear = body?.target_year;
+  const apiKey = body?.api_key;
 
   if (typeof homeTeam !== "string" || typeof awayTeam !== "string" || !homeTeam || !awayTeam) {
     return NextResponse.json({ error: "home_team and away_team are required" }, { status: 400 });
@@ -35,16 +36,32 @@ export async function POST(request: Request) {
   if (typeof targetYear !== "number") {
     return NextResponse.json({ error: "target_year is required" }, { status: 400 });
   }
+  if (apiKey !== undefined && (typeof apiKey !== "string" || !apiKey.trim())) {
+    return NextResponse.json({ error: "api_key must be a non-empty string" }, { status: 400 });
+  }
+  // No key from the request and none configured on the server (e.g. python/.env for local
+  // dev) means the Python subprocess has nothing to authenticate with — fail fast instead of
+  // spawning it. Every visitor supplies their own key; this server never ships one.
+  if (!apiKey && !process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json(
+      { error: "Enter your Anthropic API key above to run predictions." },
+      { status: 400 },
+    );
+  }
 
   const python = resolvePythonExecutable();
   const payload = JSON.stringify({ home_team: homeTeam, away_team: awayTeam, target_year: targetYear });
+  // Passed as an env var (not a CLI arg or the JSON payload) so it never shows up in process
+  // listings or logs of the arguments. python-dotenv's load_dotenv() defaults to override=False,
+  // so this takes precedence over any key in python/.env.
+  const env = apiKey ? { ...process.env, ANTHROPIC_API_KEY: apiKey } : process.env;
 
   try {
     const stdout = await new Promise<string>((resolve, reject) => {
       execFile(
         python,
         [SCRIPT_PATH, payload],
-        { cwd: PYTHON_DIR, timeout: 120_000, maxBuffer: 1024 * 1024 },
+        { cwd: PYTHON_DIR, env, timeout: 120_000, maxBuffer: 1024 * 1024 },
         (error, stdout, stderr) => {
           if (error) {
             reject(new Error(stderr?.trim() ? summarizeError(stderr) : error.message, { cause: stderr }));
