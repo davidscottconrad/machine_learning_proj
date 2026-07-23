@@ -1,0 +1,27 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "frontend": {
+      "root": "frontend/",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "predictor",
+          "format": "url",
+          "env": "PREDICTOR_URL"
+        }
+      ]
+    },
+    "predictor": {
+      "root": "python/",
+      "framework": "fastapi",
+      "entrypoint": "app:app",
+      "functions": {
+        "app.py": {
+          "maxDuration": 60
+        }
+      }
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": { "service": "frontend" } }]
+}

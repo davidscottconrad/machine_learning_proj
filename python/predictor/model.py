@@ -44,7 +44,7 @@ RANDOM_STATE = 42
 FEATURES = ["elo_diff", "form_diff", "wr_diff"]
 LABELS = {"A": 0, "D": 1, "H": 2}  # team-2 win < draw < team-1 win
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "wc_data" / "wc_data"
+DATA_DIR = Path(__file__).resolve().parents[1] / "wc_data" / "wc_data"
 CACHE_PATH = Path(__file__).resolve().parents[1] / "model_cache.joblib"
 _SOURCE_FILES = [
     DATA_DIR / "international_results.csv",
@@ -146,7 +146,13 @@ def _load_cached() -> TrainedModels | None:
 
 
 def _save_cache(models: TrainedModels) -> None:
-    joblib.dump({"signature": _source_signature(), "models": models}, CACHE_PATH)
+    # Best-effort: on a read-only deployment filesystem (e.g. Vercel Functions) this write
+    # fails every time. That's fine -- _CACHE (in-process) still serves the rest of this
+    # warm container's requests; only the on-disk cache is skipped.
+    try:
+        joblib.dump({"signature": _source_signature(), "models": models}, CACHE_PATH)
+    except OSError:
+        pass
 
 
 def _train_fresh() -> TrainedModels:

@@ -40,9 +40,11 @@ def _text_of(content) -> str:
     return "".join(b.text for b in content if b.type == "text")
 
 
-def predict_match(home_team: str, away_team: str, target_year: int) -> dict:
+def predict_match(home_team: str, away_team: str, target_year: int, api_key: str | None = None) -> dict:
     models: TrainedModels = get_models()
-    client = Anthropic()
+    # api_key is per-request (each caller supplies their own); falls back to ANTHROPIC_API_KEY
+    # in the environment (e.g. python/.env) only when the caller doesn't provide one.
+    client = Anthropic(api_key=api_key) if api_key else Anthropic()
 
     messages = [
         {

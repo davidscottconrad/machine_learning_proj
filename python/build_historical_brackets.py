@@ -1,6 +1,6 @@
 """
 One-off script: extract the real Round of 16 -> Final knockout brackets for the last
-three completed World Cups (2014, 2018, 2022) from wc_data/wc_data/matches_1930_2022.csv,
+three completed World Cups (2014, 2018, 2022) from python/wc_data/wc_data/matches_1930_2022.csv,
 determine the actual winner of each match (penalties included), and reorder each round
 so that adjacent pairs feed the next round (round[r+1][i] = winner(round[r][2i], round[r][2i+1])),
 matching the convention the frontend bracket already uses.
@@ -14,9 +14,10 @@ from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parent.parent
-DATA_PATH = ROOT / "wc_data" / "wc_data" / "matches_1930_2022.csv"
-OUT_DIR = ROOT / "frontend" / "lib" / "historical"
+PYTHON_DIR = Path(__file__).resolve().parent
+REPO_ROOT = PYTHON_DIR.parent
+DATA_PATH = PYTHON_DIR / "wc_data" / "wc_data" / "matches_1930_2022.csv"
+OUT_DIR = REPO_ROOT / "frontend" / "lib" / "historical"
 
 ROUND_ORDER = ["Round of 16", "Quarter-finals", "Semi-finals", "Final"]
 ROUND_LABELS = ["Round of 16", "Quarterfinals", "Semifinals", "Final"]

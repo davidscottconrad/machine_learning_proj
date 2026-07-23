@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""CLI entrypoint invoked as a subprocess from the Next.js API route.
+"""Standalone CLI for manual testing -- not part of the request path (that's app.py).
 
 Usage: python predict.py '{"home_team": "Spain", "away_team": "Austria", "target_year": 2026}'
 Prints a single JSON object to stdout; errors go to stderr with a non-zero exit code.
+Reads ANTHROPIC_API_KEY from python/.env.
 """
 from __future__ import annotations
 

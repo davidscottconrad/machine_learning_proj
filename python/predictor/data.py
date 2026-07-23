@@ -22,7 +22,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "wc_data" / "wc_data"
+DATA_DIR = Path(__file__).resolve().parents[1] / "wc_data" / "wc_data"
 
 BASE_ELO, K = 1500.0, 40.0
 WINDOW_YEARS = 2
